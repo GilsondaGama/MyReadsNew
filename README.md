@@ -1,15 +1,43 @@
-# MyReads Project
+﻿**Have a question or suggestion?**
+Open a pull request on this project.
 
-This is the starter template for the final assessment project for Udacity's React Fundamentals course. The goal of this template is to save you time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.
+**Programming assignment for the [Udacity React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) program.**
+
+---
+
+
+# MyReads Project: A Book Lending App
+
+Simple app to manage lists of current reading, want to read and already read books.
+Built with React and React Router. This project was created with [Create React App]. You can find more information on how to perform common tasks here. The starter template for the assignment (including CSS styles) can be found here.
 
 Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
 
-## TL;DR
 
-To get started developing right away:
+## API
 
-* install all project dependencies with `npm install`
-* start the development server with `npm start`
+This applications consumes data from an API designed specifically for the assignment.
+
+The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results. 
+
+
+## Installation
+
+Installs all necessary modules to run the current project.
+
+```bash
+$ npm install
+```
+
+
+## Development
+
+Runs development server, with live reloading, on http://localhost:3000.
+
+```bash
+$ npm start
+```
+
 
 ## What You're Getting
 ```bash
@@ -87,6 +115,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+1. Fork it
+2. Create your feature branch with specs (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Contributors
+
+* Gilson da Gama ([gilsondagama](https://github.com/GilsondaGama))
+
+
+## License
+
+This project is licensed under the MIT License. Check the `LICENSE` file.

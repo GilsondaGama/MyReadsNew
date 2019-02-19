@@ -13,7 +13,7 @@ class BooksApp extends Component {
   state = {
     books: [],
     isLoading: false
-  };    
+  }    
  
   async componentDidMount() {
     const books = await BooksAPI.getAll()
@@ -26,7 +26,7 @@ class BooksApp extends Component {
     books=books.filter(b => b.id !== book.book.id).concat({
       ...book.book,      
       shelf: selectShelf
-    }); 
+    }) 
 
     BooksAPI.update(book.book, selectShelf) 
       .catch(() => {alert('Something went wrong with your request.')})   
@@ -37,11 +37,11 @@ class BooksApp extends Component {
   
   startLoading = () => {
     this.setState({isLoading: true});
-  };
+  }
 
   endLoading = () => {
     this.setState({isLoading: false});
-  };
+  }
 
   render() {
     const {books = []} = this.state

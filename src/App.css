@@ -200,16 +200,16 @@ button:active {
 .book-rating-star {
   position: absolute;
   top: -12px;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   background: transparent;
   background-image: url('./icons/star.svg');
   background-repeat: no-repeat;
-  background-size: 40px;
+  background-size: 50px;
 }
 
 .book-rating-number {
-  padding: 10px 10px 0;
+  padding: 17px 15px 0;
   text-align: center;
   font-size: 1em;
   font-weight: bold;

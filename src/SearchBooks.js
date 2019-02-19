@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { debounce } from 'throttle-debounce'
 import * as BooksAPI from "./BooksAPI"
-
-import RatingBook from './RatingBook'
-import SelectShelf from './SelectShelf'
 import './App.css'
 
 class SearchBooks extends Component { 
@@ -41,6 +38,16 @@ class SearchBooks extends Component {
       : this.setState({results: []})
     });
   }  
+
+  findStorage = (bookId) => {
+    let rating = localStorage.getItem(bookId)
+  
+    if (rating) {
+      return rating
+    } else {
+      return "0"
+    }
+  }
   
   render() {
     const {changeShelf} = this.props
@@ -86,7 +93,7 @@ class SearchBooks extends Component {
                     <div className="book-shelf-changer">
                       <select id={book.id} 
                           onChange={() => {changeShelf({book}, 
-                          SelectShelf(document.getElementById(book.id)))}}
+                          document.getElementById(book.id).value)}}                        
                           defaultValue={book.shelf}
                       >
                         <option value="move" disabled>Move to...</option>
@@ -96,11 +103,24 @@ class SearchBooks extends Component {
                         <option value="none">None</option>
                       </select>
                     </div>
+
                     <div className="book-rating-star">
-                      <div className="book-rating-number">
-                        {RatingBook(book.title)}
+                      <div className="book-rating-number">                      
+                        <select id={book.title}
+                          onChange={() => {localStorage.setItem(book.id, 
+                          document.getElementById(book.title).value)}}
+                          defaultValue={this.findStorage(book.id)}
+                        >
+                          <option value="0" disabled>0</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>                                            
+                          <option value="5">5</option>
+                        </select>
                       </div>
                     </div>
+
                   </div>
                   <div className="book-title">{book.title}</div>
                   <div className="book-authors">{book.authors}</div>

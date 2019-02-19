@@ -39,7 +39,7 @@ $ npm start
 ```
 
 
-# What You're Getting
+# What we have news
 ## React Loading Overlay
 
 Extracted from: 

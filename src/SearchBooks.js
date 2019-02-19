@@ -82,7 +82,7 @@ class SearchBooks extends Component {
 
           <ol className="books-grid">
             {this.state.results.map((book) => (
-              <li key = {book.id}>               
+              <li key = {book.id}>           
                 <div className="book">
                   <div className="book-top">
                     <div className="book-cover" 
@@ -94,7 +94,7 @@ class SearchBooks extends Component {
                       <select id={book.id} 
                           onChange={() => {changeShelf({book}, 
                           document.getElementById(book.id).value)}}                        
-                          defaultValue={book.shelf}
+                          defaultValue="move"
                       >
                         <option value="move" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
@@ -128,7 +128,7 @@ class SearchBooks extends Component {
               </li>
             ))}
           </ol>
-        </div>
+        </div> 
       </div>
     )
   }

@@ -4,7 +4,6 @@ import './App.css'
 
 const ListBooks =({books, shelfs, bookshelftitle, changeShelf}) => {
 const showingBooks = books.filter((b) => b.shelf === shelfs)
-//console.log('books', books)
 
 const findStorage = ((bookId) => {
   let rating = localStorage.getItem(bookId)

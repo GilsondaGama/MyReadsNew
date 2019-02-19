@@ -9,7 +9,8 @@ Open a pull request on this project.
 # MyReads Project: A Book Lending App
 
 Simple app to manage lists of current reading, want to read and already read books.
-Built with React and React Router. This project was created with [Create React App]. You can find more information on how to perform common tasks here. The starter template for the assignment (including CSS styles) can be found here.
+Built with React and React Router. This project was created with  [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md). The starter template for the assignment (including CSS styles) can be found  [here](https://github.com/udacity/reactnd-project-myreads-starter).
+
 
 Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
 

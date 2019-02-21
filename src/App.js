@@ -16,10 +16,17 @@ class BooksApp extends Component {
   }    
  
   async componentDidMount() {
+    this.startLoading();
     const books = await BooksAPI.getAll()
     this.setState({books})
+    this.endLoading();
   }
 
+  updateBook = async (book, shelf) => {    
+    await BooksAPI.update(book, shelf);
+    this.endLoading();
+  }  
+  
   changeShelf = (book, selectShelf) => {
     this.startLoading();
     let {books} = this.state; 
@@ -27,11 +34,8 @@ class BooksApp extends Component {
       ...book.book,      
       shelf: selectShelf
     }) 
-
-    BooksAPI.update(book.book, selectShelf) 
-      .catch(() => {alert('Something went wrong with your request.')})   
-      .then(this.endLoading);
- 
+    
+    this.updateBook(book.book, selectShelf)     
     this.setState({books});
   } 
   
@@ -55,7 +59,7 @@ class BooksApp extends Component {
           text="Loading..."
         >
           <Route exact path="/search" render={() => (
-            <SearchBooks changeShelf={this.changeShelf}/>
+            <SearchBooks  changeShelf={this.changeShelf} books={books}/>
           )}/>
 
 

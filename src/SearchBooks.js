@@ -2,60 +2,69 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { debounce } from 'throttle-debounce'
 import * as BooksAPI from "./BooksAPI"
+
+import SingleBook from './SingleBook'
 import './App.css'
 
 class SearchBooks extends Component { 
 
   state = {
-    results: [],
-    query: ''
-  };
+    query: '',
+    books: []
+  }
 
   constructor() {
     super()
-    this.debounce = debounce(300, false, this.debounce)
+    this.debounce = debounce(300, true, this.searchBooks)
   }
 
-  updateQuery(event) {
-    const query = event.target.value;
-    this.setState({query});
-    this.debounce(query);
-  }
-  
-  clearQuery = () => {
-    this.updateQuery('')
-  }    
-  
-  debounce(query) {
-    if (query === '' || query === undefined){
-      this.setState({results: []});
-      return;
+  componentWillReceiveProps(nextProps) {
+    if (this.state.books.length > 0 && nextProps.books.length > 0) {
+      this.setBookShelves(this.state.books, nextProps.books);
     }
+  }
 
-    BooksAPI.search(query).then((books) => {
-      (books.constructor === Array)
-      ? this.setState({results: books})
-      : this.setState({results: []})
-    });
-  }  
+  updateQuery = query => {
+    this.setState({ query });
+    this.searchBooks(query);
+  };
 
-  findStorage = (bookId) => {
-    let rating = localStorage.getItem(bookId)
-  
-    if (rating) {
-      return rating
+  searchBooks = query => {
+    if (query === '') {
+      this.setState({ books: [] });
     } else {
-      return "0"
+      BooksAPI.search(query, 20).then(books => {
+        if (Array.isArray(books)) {
+          this.setBookShelves(books, this.props.books);
+        }
+      });
     }
-  }
-  
+  };
+
+  setBookShelves = (searchBooks, myBooks) => {
+    const correctlyShelvedBooks = searchBooks.map(searchBook => {
+      const myBook = myBooks.filter(
+        propBook => propBook.id === searchBook.id
+      )[0];
+      if (myBook) {
+        searchBook.shelf = myBook.shelf;
+      } else {
+        searchBook.shelf = 'none';
+      }
+      return searchBook;
+    });
+
+    if (this.state.books !== correctlyShelvedBooks) {
+      this.setState({ books: correctlyShelvedBooks });
+    }
+  };
+
   render() {
-    const {changeShelf} = this.props
 
     let message;
     if (this.state.query === '') {
       message = "Write one or more keywords above to start searching."
-    } else if (this.state.results.length === 0) {
+    } else if (this.state.books.length === 0) {
       message = "No results found. Try different keywords."
     }
 
@@ -65,72 +74,32 @@ class SearchBooks extends Component {
           <Link className="close-search" to="/">
             Close
           </Link>
-
-          <div className="search-books-input-wrapper">              
-            <input type="text" 
+          <div className="search-books-input-wrapper">
+            <input
+              type="text"
               placeholder="Search by title or author"
-              value = {this.state.query}
-              onChange = {(event) => this.updateQuery(event)}
+              value={this.state.query}
+              onChange={event => this.updateQuery(event.target.value)}
             />
           </div>
         </div>
-
+        
         <div className="search-books-results">
           <h2 style={{ textAlign: 'center' }}>
             {message}
           </h2>
 
           <ol className="books-grid">
-            {this.state.results.map((book) => (
-              <li key = {book.id}>           
-                <div className="book">
-                  <div className="book-top">
-                    <div className="book-cover" 
-                      style={{width: 128, height: 193, 
-                      backgroundImage:`url(${book.imageLinks.smallThumbnail})` }}>
-                    </div>   
+              {this.state.books.map((book) => (
+                <li key = {book.id}>
+                  {SingleBook(book, this.props.changeShelf)}
+                </li>             
+              ))}
+            </ol>
+        </div>
 
-                    <div className="book-shelf-changer">
-                      <select id={book.id} 
-                          onChange={() => {changeShelf({book}, 
-                          document.getElementById(book.id).value)}}                        
-                          defaultValue="move"
-                      >
-                        <option value="move" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>                                            
-                        <option value="none">None</option>
-                      </select>
-                    </div>
-
-                    <div className="book-rating-star">
-                      <div className="book-rating-number">                      
-                        <select id={book.title}
-                          onChange={() => {localStorage.setItem(book.id, 
-                          document.getElementById(book.title).value)}}
-                          defaultValue={this.findStorage(book.id)}
-                        >
-                          <option value="0" disabled>0</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>                                            
-                          <option value="5">5</option>
-                        </select>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.authors}</div>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div> 
       </div>
-    )
+    );
   }
 }
 
